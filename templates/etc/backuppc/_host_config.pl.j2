@@ -8,11 +8,36 @@ $Conf{ClientCharsetLegacy} = 'utf-8';
 
 $Conf{BackupFilesOnly} = {
   '*' => [
-     '/boot/grub/grub.cfg'
+     '/root/.ssh/'
     ,'/etc/fstab'
-    ,'/etc/network/interfaces'
-    ,'/root/.ssh/'
+    ,'/etc/ssh/ssh*_config'
+    ,'/etc/profile'
+    ,'/etc/passwd'
+    ,'/etc/group'
+    ,'/etc/shadow'
+    ,'/etc/gshadow'
+    ,'/etc/sudoers'
+    ,'/etc/sudoers.d/'
+    ,'/etc/default/grub'
+    ,'/etc/crontab'
     ,'/var/backups/'
+    ,'/var/spool/cron/'
+{% if ansible_os_family == "Debian" %}
+    ,'/boot/grub/grub.cfg'
+{% endif %}
+{% if ansible_os_family == "Debian" %}
+{% if ansible_distribution_version is version('16.04', '<=') %}
+    ,'/etc/network/interfaces'
+{% endif %}
+{% endif %}
+{% if ansible_distribution == "Ubuntu" %}
+{% if ansible_distribution_version is version('18.04', '>=') %}
+    ,'/etc/netplan/'
+{% endif %}
+{% endif %}
+{% if ansible_os_family == "RedHat" %}
+    ,'/etc/sysconfig/network-scripts/ifcfg-*'
+{% endif %}
 {% if item.include_files is defined %}
 {% for item in item.include_files %}
     ,'{{ item }}'
