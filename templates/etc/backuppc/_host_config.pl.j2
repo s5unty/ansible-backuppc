@@ -2,7 +2,7 @@
 # {{ ansible_managed }}
 #
 
-$Conf{ClientNameAlias} = ['{{ hostvars[item.hostname].ansible_host }}'];
+$Conf{ClientNameAlias} = ['{{ ansible_host }}'];
 $Conf{XferMethod} = '{{ item.xfermethod | default("rsync") }}';
 $Conf{ClientCharsetLegacy} = 'utf-8';
 
